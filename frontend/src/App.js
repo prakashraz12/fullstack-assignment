@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { Route, Routes } from "react-router-dom";
+import Home from "./views/home";
+import UserRouter from "./routes/user_router";
+import { ThemeProvider, createTheme } from "@mui/material";
+import { useMemo } from "react";
+import { themeSettings } from "./utils/mui_theme_provider";
+import Register from "./views/auth/register";
 function App() {
+  const mode = "light"
+  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <ThemeProvider theme={theme}>
+     <Routes>
+      <Route path="/" element={<UserRouter/>} >
+        <Route index element={<Home/>}/>
+      </Route>
+      <Route path="/auth/register" element={<Register/>}/>
+    </Routes>
+   </ThemeProvider>
   );
 }
 
